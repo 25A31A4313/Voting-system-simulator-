@@ -1,2 +1,110 @@
-# Voting-system-simulator-
-A Medical Appointment Scheduler is a system that helps patients book, reschedule, or cancel doctor appointments online. It manages doctor availability, sends reminders, reduces waiting time, and improves hospital or clinic efficiency by organizing patient schedules digitally.
+#include <iostream>
+#include <queue>
+#include <string>
+
+using namespace std;
+
+struct Patient {
+    int id;
+    string name;
+    string problem;
+};
+
+queue<Patient> appointmentQueue;
+
+// Function to add patient
+void addPatient() {
+    Patient p;
+
+    cout << "\nEnter Patient ID: ";
+    cin >> p.id;
+
+    cin.ignore();
+
+    cout << "Enter Patient Name: ";
+    getline(cin, p.name);
+
+    cout << "Enter Problem: ";
+    getline(cin, p.problem);
+
+    appointmentQueue.push(p);
+
+    cout << "Patient added successfully!\n";
+}
+
+// Function to serve patient
+void servePatient() {
+    if (appointmentQueue.empty()) {
+        cout << "\nNo patients in queue.\n";
+        return;
+    }
+
+    Patient p = appointmentQueue.front();
+    appointmentQueue.pop();
+
+    cout << "\nNow Serving Patient\n";
+    cout << "ID      : " << p.id << endl;
+    cout << "Name    : " << p.name << endl;
+    cout << "Problem : " << p.problem << endl;
+}
+
+// Function to display all patients
+void displayPatients() {
+    if (appointmentQueue.empty()) {
+        cout << "\nNo patients in queue.\n";
+        return;
+    }
+
+    queue<Patient> temp = appointmentQueue;
+
+    cout << "\nPatients Waiting:\n";
+
+    while (!temp.empty()) {
+        Patient p = temp.front();
+
+        cout << "ID: " << p.id
+             << " | Name: " << p.name
+             << " | Problem: " << p.problem << endl;
+
+        temp.pop();
+    }
+}
+
+// Main function
+int main() {
+    int choice;
+
+    do {
+        cout << "\n===== Medical Appointment Scheduler =====\n";
+        cout << "1. Add Patient\n";
+        cout << "2. Serve Patient\n";
+        cout << "3. Display Waiting Patients\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addPatient();
+                break;
+
+            case 2:
+                servePatient();
+                break;
+
+            case 3:
+                displayPatients();
+                break;
+
+            case 4:
+                cout << "\nExiting Program...\n";
+                break;
+
+            default:
+                cout << "\nInvalid choice!\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
